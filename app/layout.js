@@ -3,6 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Navbar from "@/components/AppLayout/Navbar";
 import Footer from "@/components/AppLayout/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
+import LoadingBar from "@/components/LoadingBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,15 +27,20 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SmoothScroll>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
           >
+          <LoadingBar />
           <Navbar />
-              {children}
+              <main className="page-content">
+                {children}
+              </main>
           <Footer />
           </ThemeProvider>
+        </SmoothScroll>
       </body>
     </html>
   );
