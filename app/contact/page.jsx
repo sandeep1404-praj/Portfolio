@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default function Contact() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-5xl flex-col items-center sm:items-start justify-center py-24 px-6 sm:px-12 bg-white dark:bg-black">
         <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-8 w-full">
           <div className="flex-1 space-y-6 text-center sm:text-left">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-zinc-50">
-              Hi, I'm Your Name
+              Hi, I'm Your contact
             </h1>
             <p className="text-lg text-zinc-700 dark:text-zinc-300 max-w-2xl">
               Frontend developer crafting clean, accessible interfaces with Next.js, React, and Tailwind CSS. I love building fast, delightful user experiences.
