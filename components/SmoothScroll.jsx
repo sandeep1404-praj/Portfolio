@@ -15,6 +15,9 @@ export default function SmoothScroll({ children }) {
         wheelMultiplier: 0.8,
       });
 
+      // Expose lenis globally for ScrollToTop component
+      window.lenis = lenis;
+
       function raf(time) {
         lenis.raf(time);
         requestAnimationFrame(raf);

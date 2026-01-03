@@ -1,10 +1,11 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Carter_One, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Navbar from "@/components/AppLayout/Navbar";
 import Footer from "@/components/AppLayout/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import LoadingBar from "@/components/LoadingBar";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,6 +14,17 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const carterOne = Carter_One({
+  variable: "--font-carter-one",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair-display",
   subsets: ["latin"],
 });
 
@@ -25,7 +37,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} antialiased`}
       >
         <SmoothScroll>
           <ThemeProvider
@@ -33,12 +45,14 @@ export default function RootLayout({ children }) {
             defaultTheme="system"
             enableSystem
           >
-          <LoadingBar />
-          <Navbar />
-              <main className="page-content">
-                {children}
-              </main>
-          <Footer />
+            <ScrollToTop />
+            <LoadingBar />
+            <Navbar />
+            <main className="page-content" data-barba="container">
+              {children}
+            </main>
+            <Footer />
+            <div className="bottom-blur" aria-hidden="true" />
           </ThemeProvider>
         </SmoothScroll>
       </body>
