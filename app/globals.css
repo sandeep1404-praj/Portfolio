@@ -231,3 +231,37 @@ html.lenis {
     transform: translateX(-50%);
   }
 }
+
+/* Tech Stack Marquee Animation */
+@keyframes marquee-slow {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 30s linear infinite;
+}
+
+/* Accordion Animation */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] > summary ~ * {
+  animation: accordion-open 0.3s ease-out;
+}
+
+@keyframes accordion-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,3 +1,4 @@
+import ScrollFloat from "@/components/ui/ScrollFloat";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ShinyText from "@/components/ui/ShinyText";
 import Image from "next/image";
@@ -52,43 +53,43 @@ export default function Home() {
           {/* Footer Section with Social Links and Button */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-8 mt-12">
             {/* Social Links */}
-            <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-6 hover:[&>a:not(:hover)]:text-zinc-400 hover:[&>a:not(:hover)]:dark:text-zinc-500">
               <Link 
                 href="https://linkedin.com" 
                 target="_blank"
-                className="flex items-center gap-2 text-sm hover:text-[#7fef6d] transition-colors group"
+                className="group flex items-center gap-2 text-sm text-black dark:text-white transition-colors hover:text-black hover:dark:text-white"
               >
-                <span className="text-black dark:text-white">LINKEDIN</span>
-                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform stroke-black dark:stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>LINKEDIN</span>
+                <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
               <Link 
                 href="https://github.com" 
                 target="_blank"
-                className="flex items-center gap-2 text-sm hover:text-[#7fef6d] transition-colors group"
+                className="group flex items-center gap-2 text-sm text-black dark:text-white transition-colors hover:text-black hover:dark:text-white"
               >
-                <span className="text-black dark:text-white">GITHUB</span>
-                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform stroke-black dark:stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>GITHUB</span>
+                <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
               <Link 
                 href="https://instagram.com" 
                 target="_blank"
-                className="flex items-center gap-2 text-sm hover:text-[#7fef6d] transition-colors group"
+                className="group flex items-center gap-2 text-sm text-black dark:text-white transition-colors hover:text-black hover:dark:text-white"
               >
-                <span className="text-black dark:text-white">INSTAGRAM</span>
-                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform stroke-black dark:stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>INSTAGRAM</span>
+                <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
               <Link 
                 href="mailto:your@email.com"
-                className="flex items-center gap-2 text-sm hover:text-[#7fef6d] transition-colors group"
+                className="group flex items-center gap-2 text-sm text-black dark:text-white transition-colors hover:text-black hover:dark:text-white"
               >
-                <span className="text-black dark:text-white">GMAIL</span>
-                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform stroke-black dark:stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>GMAIL</span>
+                <svg className="w-4 h-4 transform transition-transform group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
@@ -96,8 +97,17 @@ export default function Home() {
 
             {/* Know me better button */}
             <Link href="/about">
-              <button className="text-black dark:text-white px-8 py-3 rounded-full border border-black dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-sm font-medium">
-                Know me better
+              <button className="relative overflow-hidden px-8 py-3 rounded-full border border-black dark:border-zinc-700 text-sm font-medium group isolate">
+                <span className="relative z-10 block text-black dark:text-white transition-transform duration-300 group-hover:-translate-y-full group-hover:opacity-0">
+                  Know me better
+                </span>
+                <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-full text-white dark:text-black transition-transform duration-300 group-hover:translate-y-0">
+                  About Me
+                </span>
+                <span
+                  className="pointer-events-none absolute -bottom-8 left-1/2 h-24 w-24 -translate-x-1/2 scale-0 opacity-0 rounded-full bg-black dark:bg-white origin-bottom transition-all duration-500 ease-out group-hover:scale-[3.2] group-hover:opacity-90"
+                  aria-hidden="true"
+                />
               </button>
             </Link>
           </div>
@@ -124,7 +134,7 @@ export default function Home() {
         </div>
         <div className="mt-25 w-full flex flex-col items-center justify-center text-center">
           <ShinyText
-            text="✨ About Me ✨"
+            text="✨ About Me"
             speed={2}
             delay={0}
             color="#69d867ff"
@@ -147,21 +157,228 @@ export default function Home() {
         </div>
 
         <section className="mt-16 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Featured Projects</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[1,2,3,4].map((id) => (
-              <div key={id} className="rounded-xl border border-black/10 dark:border-white/10 p-5">
-                <h3 className="font-semibold text-black dark:text-zinc-50">Project {id}</h3>
-                <p className="text-sm text-zinc-700 dark:text-zinc-300">Brief description of what this project does and the tech used.</p>
-                <div className="mt-4 flex gap-3">
-                  <a className="text-sm font-medium text-blue-600 dark:text-blue-400" href="#">Demo</a>
-                  <a className="text-sm font-medium text-zinc-700 dark:text-zinc-300" href="#">Code</a>
+          <ShinyText
+            text="✨ MY WORK "
+            speed={2}
+            delay={0}
+            color="#69d867ff"
+            shineColor="#ffffff"
+            spread={120}
+            direction="left"
+            yoyo={false}
+            pauseOnHover={false}
+          />
+
+          <ScrollFloat
+            duration={1.6}
+          >
+            Selected Projects
+          </ScrollFloat>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl mb-6">
+            Here's a curated selection showcasing my expertise and the achieved results.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 group/projects">
+            {[
+              {
+                id: 1,
+                title: "Aora",
+                category: "Development",
+                year: "2024",
+                image: "/projects/arora.png",
+                bgColor: "bg-[#FFF9E6] dark:bg-[#2a2a1a]",
+                link: "/projects/aora"
+              },
+              {
+                id: 2,
+                title: "Code Screenshot",
+                category: "Development & Design",
+                year: "2024",
+                image: "/projects/code-screenshot.png",
+                bgColor: "bg-[#E8E0D8] dark:bg-[#2a2622]",
+                link: "/projects/code-screenshot"
+              },
+              {
+                id: 3,
+                title: "iPhone 15 Pro",
+                category: "Development & Design",
+                year: "2024",
+                image: "/projects/iphone-15-pro.png",
+                bgColor: "bg-[#F5F5F5] dark:bg-[#1a1a1a]",
+                link: "/projects/iphone-15-pro"
+              },
+              {
+                id: 4,
+                title: "Ochi Design",
+                category: "Development & Design",
+                year: "2024",
+                image: "/projects/ochi-design.png",
+                bgColor: "bg-[#D4F5E9] dark:bg-[#1a2a22]",
+                link: "/projects/ochi-design"
+              }
+            ].map((project, index) => (
+              <Link 
+                href={project.link} 
+                key={project.id} 
+                className={`group/card cursor-pointer transition-all duration-500 ease-out group-hover/projects:opacity-40 group-hover/projects:blur-[2px] hover:!opacity-100 hover:!blur-none ${index % 2 === 1 ? 'md:mt-16' : ''}`}
+              >
+                <div className={`relative rounded-2xl ${project.bgColor} p-8 h-[320px] sm:h-[380px] flex items-center justify-center overflow-hidden transition-all duration-500 group-hover/card:scale-[1.02] group-hover/card:shadow-2xl group-hover/card:shadow-[#7fef6d]/20`}>
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-contain p-4 "
+                    />
+                  </div>
                 </div>
-              </div>
+                <div className="mt-4 flex items-start justify-between">
+                  <div>
+                    <h3 className="text-xl font-semibold text-black dark:text-zinc-50">{project.title}</h3>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{project.category}</p>
+                  </div>
+                  <span className="text-sm text-zinc-600 dark:text-zinc-400">{project.year}</span>
+                </div>
+              </Link>
             ))}
           </div>
-          <div className="mt-6">
-            <Link href="/projects" className="text-sm font-medium text-blue-600 dark:text-blue-400">See all projects →</Link>
+          <div className="mt-10 flex justify-center">
+            <button className="relative overflow-hidden px-8 py-3 rounded-full border border-black dark:border-zinc-700 text-sm font-medium group isolate">
+                <span className="relative z-10 block text-black dark:text-white transition-transform duration-300 group-hover:-translate-y-full group-hover:opacity-0">
+                  View all projects
+                </span>
+                <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-full text-white dark:text-black transition-transform duration-300 group-hover:translate-y-0">
+                  View all projects
+                </span>
+                <span
+                  className="pointer-events-none absolute -bottom-8 left-1/2 h-24 w-24 -translate-x-1/2 scale-0 opacity-0 rounded-full bg-black dark:bg-white origin-bottom transition-all duration-500 ease-out group-hover:scale-[3.2] group-hover:opacity-90"
+                  aria-hidden="true"
+                />
+              </button>
+          </div>
+        </section>
+
+        <section className="mt-20 w-full">
+          <ShinyText
+            text="✨ SPECIALITY"
+            speed={2}
+            delay={0}
+            color="#69d867ff"
+            shineColor="#ffffff"
+            spread={120}
+            direction="left"
+            yoyo={false}
+            pauseOnHover={false}
+          />
+          
+          <ScrollFloat duration={1.6}>
+            Areas of Expertise
+          </ScrollFloat>
+
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Accordion */}
+            <div className="space-y-4">
+              {[
+                {
+                  icon: (
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M16 18L22 12L16 6" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M8 6L2 12L8 18" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ),
+                  title: "Development",
+                  content: "Building scalable web applications with modern technologies like React, Next.js, Node.js, and more. Focus on clean code, performance, and best practices."
+                },
+                {
+                  icon: (
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 19L19 12L22 15L15 22L12 19Z" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18 13L16.5 5.5L2 2L5.5 16.5L13 18L18 13Z" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2 2L9.586 9.586" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="11" cy="11" r="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ),
+                  title: "UI/UX Design",
+                  content: "Creating intuitive and visually appealing interfaces that enhance user experience. Expertise in Figma, prototyping, and design systems."
+                },
+                {
+                  icon: (
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M3 9H21" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M9 21V9" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ),
+                  title: "Branding",
+                  content: "Developing cohesive brand identities that resonate with target audiences. From logos to complete visual systems that tell your story."
+                }
+              ].map((item, index) => (
+                <details key={index} className="group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 overflow-hidden">
+                  <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none">
+                    <div className="flex items-center gap-4">
+                      <span className="text-black dark:text-white">{item.icon}</span>
+                      <span className="text-lg font-medium text-black dark:text-white">{item.title}</span>
+                    </div>
+                    <svg className="w-5 h-5 text-zinc-500 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9L12 15L18 9" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </summary>
+                  <div className="px-6 pb-5 pt-0 text-zinc-600 dark:text-zinc-400">
+                    {item.content}
+                  </div>
+                </details>
+              ))}
+            </div>
+
+            {/* Image */}
+            <div className="relative rounded-2xl overflow-hidden h-[350px] lg:h-[400px] bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+              <Image
+                src="/projects/workspace.png"
+                alt="Workspace"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Tech Stack Marquee */}
+          <div className="mt-16 w-screen max-w-none relative left-1/2 right-1/2 -translate-x-1/2 px-0">
+            <div className="relative overflow-hidden py-4">
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-white dark:from-black to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-white dark:from-black to-transparent" />
+              <div className="tech-marquee-track flex animate-marquee-slow">
+                {[
+                  { name: "Next.js", icon: "⚡" },
+                  { name: "MySQL", icon: "🐬" },
+                  { name: "MongoDB", icon: "🍃" },
+                  { name: "PostgreSQL", icon: "🐘" },
+                  { name: "Cypress", icon: "🧪" },
+                  { name: "Docker", icon: "🐳" },
+                  { name: "Firebase", icon: "🔥" },
+                  { name: "AWS", icon: "☁️" },
+                  { name: "GSAP", icon: "🎭" },
+                  { name: "Framer Motion", icon: "🎬" },
+                  { name: "Next.js", icon: "⚡" },
+                  { name: "MySQL", icon: "🐬" },
+                  { name: "MongoDB", icon: "🍃" },
+                  { name: "PostgreSQL", icon: "🐘" },
+                  { name: "Cypress", icon: "🧪" },
+                  { name: "Docker", icon: "🐳" },
+                  { name: "Firebase", icon: "🔥" },
+                  { name: "AWS", icon: "☁️" },
+                  { name: "GSAP", icon: "🎭" },
+                  { name: "Framer Motion", icon: "🎬" },
+                ].map((tech, idx) => (
+                  <span
+                    key={`${tech.name}-${idx}`}
+                    className="mx-4 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-sm text-zinc-700 dark:text-zinc-300 whitespace-nowrap"
+                  >
+                    <span>{tech.icon}</span>
+                    <span>{tech.name}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
