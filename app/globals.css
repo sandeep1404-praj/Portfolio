@@ -233,17 +233,21 @@ html.lenis {
 }
 
 /* Tech Stack Marquee Animation */
-@keyframes marquee-slow {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.tech-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  animation: tech-marquee 25s linear infinite;
 }
 
-.animate-marquee-slow {
-  animation: marquee-slow 30s linear infinite;
+@keyframes tech-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Accordion Animation */

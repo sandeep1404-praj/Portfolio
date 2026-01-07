@@ -51,7 +51,11 @@ export default function RootLayout({ children }) {
             <main className="page-content" data-barba="container">
               {children}
             </main>
-            <Footer />
+            <div className="flex min-h-screen items-center justify-center bg-white font-sans dark:bg-black">
+                <main className="flex min-h-screen w-full max-w-7xl flex-col justify-center py-24 px-6 sm:px-16 lg:px-15 bg-white dark:bg-black">            
+                  <Footer />
+                </main>
+              </div>
             <div className="bottom-blur" aria-hidden="true" />
           </ThemeProvider>
         </SmoothScroll>
