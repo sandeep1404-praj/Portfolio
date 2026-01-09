@@ -38,7 +38,7 @@ export default function Footer() {
     </section>
     <footer className="mt-8 w-full pb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p className="text-sm text-zinc-500">
-         {new Date().getFullYear()} Sandeep Prajapati. All rights reserved.
+         ©{new Date().getFullYear()}  Sandeep Prajapati. All rights reserved.
       </p>
       
       {/* Social Icons */}
