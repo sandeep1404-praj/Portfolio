@@ -91,7 +91,7 @@ export default function CommunitySection() {
                 {/* <span className="text-lime-500 text-sm font-semibold tracking-widest">✨ COMMUNITY WORK</span> */}
               </div>
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground leading-tight mb-6">
-                Building a Tech<br />Community
+                Crafting Solution<br />one line of code at a<br/> time.
               </h2>
             </div>
 

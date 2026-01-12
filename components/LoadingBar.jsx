@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import barba from 'barba';
+import { usePathname, useRouter } from 'next/navigation';
+import barba from '@barba/core';
 
 export default function LoadingBar() {
   const [progress, setProgress] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [transitionStage, setTransitionStage] = useState('idle'); // idle, covering, loading, revealing
   const [showContent, setShowContent] = useState(false);
   const [showName1, setShowName1] = useState(false);
   const [showName2, setShowName2] = useState(false);
@@ -14,196 +15,147 @@ export default function LoadingBar() {
   const [isFirstVisit, setIsFirstVisit] = useState(false);
   const [showFirstAnimation, setShowFirstAnimation] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const [barbaInitialized, setBarbaInitialized] = useState(false);
 
-  // Check if this is the first visit (only runs once on mount)
+  // Helper to hide content immediately
+  const hideContent = () => {
+    const pageContent = document.querySelector('.page-content');
+    if (pageContent) {
+      pageContent.classList.remove('page-loaded');
+      pageContent.classList.add('page-loading');
+    }
+  };
+
+  // Sync transition stage with body class to force hide content
+  useEffect(() => {
+    if (transitionStage !== 'idle') {
+      document.body.classList.add('is-transitioning');
+    } else {
+      document.body.classList.remove('is-transitioning');
+    }
+  }, [transitionStage]);
+
+  // Handle manual navigation intercept to trigger "Cover" animation
+  useEffect(() => {
+    const handleAnchorClick = (e) => {
+      let target = e.target;
+      while (target && target.tagName !== 'A') target = target.parentElement;
+
+      if (target && target.tagName === 'A') {
+        const href = target.getAttribute('href');
+        if (!href || href.startsWith('http') || href.startsWith('#') || target.getAttribute('target') === '_blank' || href === pathname) return;
+
+        e.preventDefault();
+        e.stopPropagation(); // Stop Next.js Link from triggering immediately
+        
+        setTransitionStage('covering');
+        setIsPageLoading(true);
+        setProgress(0);
+        
+        // Hide content strictly as soon as cover animation starts
+        hideContent();
+        
+        setTimeout(() => {
+          router.push(href);
+        }, 1200); 
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick, { capture: true });
+    return () => document.removeEventListener('click', handleAnchorClick, { capture: true });
+  }, [pathname, router]);
+
+  // Check first visit
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('hasVisited');
-    
     if (!hasVisited) {
       setIsFirstVisit(true);
       setShowFirstAnimation(true);
       sessionStorage.setItem('hasVisited', 'true');
-      
-      // Immediately hide page content on first visit
       document.body.style.overflow = 'hidden';
-      const pageContent = document.querySelector('.page-content');
-      if (pageContent) {
-        pageContent.style.opacity = '0';
-        pageContent.style.visibility = 'hidden';
-      }
+      hideContent(); // Ensure hidden on first visit
     } else {
       setIsFirstVisit(false);
-      // Ensure content is visible for returning visitors
       const pageContent = document.querySelector('.page-content');
-      if (pageContent) {
-        pageContent.style.opacity = '1';
-        pageContent.style.visibility = 'visible';
+      if (pageContent && transitionStage === 'idle') {
+        pageContent.classList.add('page-loaded');
+        pageContent.classList.remove('page-loading');
       }
     }
   }, []);
 
-  // Initialize Barba.js
+  // Initialize Barba
   useEffect(() => {
     if (barbaInitialized) return;
-
     try {
-      // Configure Barba
       barba.init({
-        prefetchIgnore: true,
-        logEnabled: false,
-        transitions: [
-          {
-            name: 'default-transition',
-            leave: (data) => {
-              return new Promise((resolve) => {
-                setIsPageLoading(true);
-                setProgress(0);
-
-                const pageContent = document.querySelector('.page-content');
-                if (pageContent) {
-                  pageContent.classList.add('page-leaving');
-                  setTimeout(() => {
-                    pageContent.classList.remove('page-leaving');
-                    resolve();
-                  }, 600);
-                } else {
-                  resolve();
-                }
-              });
-            },
-            enter: (data) => {
-              return new Promise((resolve) => {
-                const pageContent = document.querySelector('.page-content');
-                if (pageContent) {
-                  pageContent.classList.add('page-entering');
-                  setTimeout(() => {
-                    pageContent.classList.remove('page-entering');
-                    setShowContent(true);
-                    setIsPageLoading(false);
-                    resolve();
-                  }, 600);
-                } else {
-                  setShowContent(true);
-                  setIsPageLoading(false);
-                  resolve();
-                }
-              });
-            },
-            once: (data) => {
-              setShowContent(true);
-              setIsPageLoading(false);
-            }
+        transitions: [{
+          name: 'page-transition',
+          leave: () => {
+            setTransitionStage('covering');
+            setIsPageLoading(true);
+            hideContent();
+            return new Promise(r => setTimeout(r, 1200));
           }
-        ]
+        }]
       });
-
-      // Handle error
-      barba.onError((error) => {
-        console.error('Barba error:', error);
-        window.location.href = window.location.href;
-      });
-
       setBarbaInitialized(true);
-    } catch (error) {
-      console.warn('Barba.js initialization skipped:', error);
-      setBarbaInitialized(true);
-    }
+    } catch (e) { setBarbaInitialized(true); }
   }, [barbaInitialized]);
 
-  // Handle page loading and animations
+  // Handle Loading and Reveal
   useEffect(() => {
-    // Skip if Barba is not initialized yet
-    if (!barbaInitialized && isFirstVisit && !showFirstAnimation) return;
-
-    setIsPageLoading(true);
-    setProgress(0);
-    setShowContent(false);
-    
-    const pageContent = document.querySelector('.page-content');
-    if (pageContent) {
-      pageContent.classList.add('page-loading');
-      pageContent.classList.remove('page-loaded');
-      
-      // Hide content initially on first visit
-      if (isFirstVisit && showFirstAnimation) {
-        pageContent.classList.add('first-visit-loading');
-      }
-    }
-    
     if (isFirstVisit && showFirstAnimation) {
-      setShowName1(false);
-      setShowName2(false);
-      setShowPortfolio(false);
-      
       setTimeout(() => setShowName1(true), 300);
       setTimeout(() => setShowName2(true), 900);
       setTimeout(() => setShowPortfolio(true), 1500);
     }
 
-    let resourcesLoaded = 0;
-    let totalResources = 0;
+    // Immediately hide content on page change to prevent flash
+    if (transitionStage !== 'idle') {
+      hideContent();
+    }
+
     let hasCompleted = false;
-
-    const updateProgress = () => {
+    const progressInterval = setInterval(() => {
       if (hasCompleted) return;
-      
       const resources = performance.getEntriesByType('resource');
-      totalResources = Math.max(resources.length, 1);
-      resourcesLoaded = resources.filter(r => r.duration > 0).length;
-      
-      const calculatedProgress = Math.min((resourcesLoaded / totalResources) * 100, 95);
-      setProgress(calculatedProgress);
-    };
-
-    updateProgress();
-    const progressInterval = setInterval(updateProgress, 100);
+      const loaded = resources.filter(r => r.duration > 0).length;
+      setProgress(Math.min((loaded / Math.max(resources.length, 1)) * 100, 95));
+    }, 100);
 
     const handleLoad = () => {
       if (hasCompleted) return;
       hasCompleted = true;
-      
       clearInterval(progressInterval);
       setProgress(100);
       
-      const waitTime = (isFirstVisit && showFirstAnimation) ? 5100 : 500;
+      // Delay reveal until content is actually ready in DOM
+      const waitTime = (isFirstVisit && showFirstAnimation) ? 5500 : 300;
       
       setTimeout(() => {
-        setShowContent(true);
-        setIsPageLoading(false);
-        if (showFirstAnimation) {
-          setShowFirstAnimation(false);
-        }
+        setTransitionStage('revealing');
         
+        // Reveal content exactly when wipe starts
         const pageContent = document.querySelector('.page-content');
         if (pageContent) {
-          pageContent.classList.remove('page-loading');
-          pageContent.classList.remove('first-visit-loading');
+          pageContent.classList.remove('page-loading', 'first-visit-loading');
           pageContent.classList.add('page-loaded');
-          
-          // Make content visible with a smooth transition after first animation
-          if (isFirstVisit) {
-            // Restore scrolling
-            document.body.style.overflow = '';
-            
-            // Add smooth transition before making visible
-            pageContent.style.transition = 'opacity 0.8s ease-out, visibility 0.8s ease-out';
-            
-            setTimeout(() => {
-              pageContent.style.opacity = '1';
-              pageContent.style.visibility = 'visible';
-            }, 100);
-          }
+          if (isFirstVisit) document.body.style.overflow = '';
         }
+
+        setTimeout(() => {
+          setTransitionStage('idle');
+          setIsPageLoading(false);
+          setShowContent(true);
+          setShowFirstAnimation(false);
+        }, 1500);
       }, waitTime);
     };
 
-    const safetyTimer = setTimeout(() => {
-      handleLoad();
-    }, (isFirstVisit && showFirstAnimation) ? 8000 : 3000);
-
     if (document.readyState === 'complete') {
-      setTimeout(handleLoad, (isFirstVisit && showFirstAnimation) ? 500 : 200);
+      setTimeout(handleLoad, 100);
     } else {
       window.addEventListener('load', handleLoad);
     }
@@ -212,289 +164,112 @@ export default function LoadingBar() {
       hasCompleted = true;
       clearInterval(progressInterval);
       window.removeEventListener('load', handleLoad);
-      clearTimeout(safetyTimer);
     };
-  }, [pathname, isFirstVisit, showFirstAnimation, barbaInitialized]);
+  }, [pathname, isFirstVisit, showFirstAnimation]);
 
   return (
     <>
-      {/* Full screen loading overlay */}
       {(isFirstVisit && showFirstAnimation) && (
-        <div 
-          className={`fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-all duration-1000 ${
-            showContent ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
-          style={{
-            clipPath: showContent ? 'circle(0% at 50% 50%)' : 'circle(150% at 50% 50%)'
-          }}
-        >
+        <div className={`fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-1000 ${showContent ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="text-center flex flex-col items-center justify-center">
-            <h1 
-              className={`text-5xl md:text-7xl font-bold text-green-500 mb-4 transition-all duration-[1200ms] ease-out ${
-                showName1 ? 'translate-x-0 translate-y-0 opacity-100 blur-0' : '-translate-x-32 translate-y-8 opacity-0 blur-sm'
-              }`}
-              style={{
-                textShadow: showName1 ? '0 0 30px rgba(34, 197, 94, 0.5)' : 'none'
-              }}
-            >
-              Sandeep
-            </h1>
-            <h2 
-              className={`text-4xl md:text-6xl font-bold text-white mb-6 transition-all duration-[1200ms] ease-out ${
-                showName2 ? 'translate-x-0 translate-y-0 opacity-100 blur-0' : 'translate-x-32 translate-y-8 opacity-0 blur-sm'
-              }`}
-              style={{
-                textShadow: showName2 ? '0 0 20px rgba(255, 255, 255, 0.3)' : 'none'
-              }}
-            >
-              Prajapati
-            </h2>
-            <p 
-              className={`text-green-500/70 text-base md:text-lg uppercase tracking-[0.3em] transition-all duration-[1000ms] ease-out ${
-                showPortfolio ? 'scale-100 translate-y-0 opacity-100 blur-0' : 'scale-75 translate-y-8 opacity-0 blur-sm'
-              }`}
-            >
-              Portfolio
-            </p>
-          </div>
-
-          <div className="fixed bottom-8 right-8 flex items-center gap-4">
-            <div className="relative w-16 h-16">
-              <div className="absolute inset-0 rounded-full bg-green-500/20 animate-pulse-slow blur-md"></div>
-              <svg 
-                className="absolute inset-0 w-16 h-16 text-green-500 animate-spin-smooth" 
-                viewBox="0 0 100 100"
-              >
-                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="10 5" opacity="0.3"/>
-                {[...Array(8)].map((_, i) => (
-                  <rect 
-                    key={i}
-                    x="47" 
-                    y="2" 
-                    width="6" 
-                    height="12" 
-                    fill="currentColor"
-                    transform={`rotate(${i * 45} 50 50)`}
-                    rx="2"
-                  />
-                ))}
-                <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="3"/>
-              </svg>
-            </div>
-
-            <div className="flex flex-col">
-              <span className="text-green-500 text-4xl font-mono font-bold tabular-nums drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]">
-                {Math.round(progress)}%
-              </span>
-              <span className="text-green-500/70 text-xs font-mono uppercase tracking-wider animate-pulse-subtle">
-                Loading
-              </span>
-            </div>
+            <h1 className={`text-5xl md:text-7xl font-bold text-green-500 mb-4 transition-all duration-[1200ms] ${showName1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>Sandeep</h1>
+            <h2 className={`text-4xl md:text-6xl font-bold text-white mb-6 transition-all duration-[1200ms] ${showName2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>Prajapati</h2>
+            <p className={`text-green-500/70 text-base md:text-lg uppercase tracking-[0.3em] transition-all duration-[1000ms] ${showPortfolio ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>Portfolio</p>
           </div>
         </div>
       )}
 
-      {/* Enhanced page navigation loading bar */}
-      {isPageLoading && !showFirstAnimation && (
-        <div className="fixed top-0 left-0 right-0 z-[100] h-1 bg-gray-800/30 backdrop-blur-sm overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 transition-all duration-300 ease-out relative shadow-[0_0_10px_rgba(34,197,94,0.5)]"
-            style={{ width: `${progress}%` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-green-400/80 to-transparent blur-sm" />
-          </div>
-
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute top-1/2 -translate-y-1/2 w-1 h-1 bg-green-300 rounded-full animate-particle opacity-60 blur-[0.5px]"
-              style={{
-                left: `${progress}%`,
-                animationDelay: `${i * 0.2}s`,
-                animationDuration: `${1 + i * 0.3}s`
-              }}
-            />
-          ))}
-        </div>
+      {!showFirstAnimation && (
+        <div className={`fixed inset-0 z-[9999] transition-overlay ${transitionStage}`} />
       )}
 
-      {/* Enhanced page navigation loading bar */}
       {isPageLoading && !showFirstAnimation && (
-        <div className="fixed top-0 left-0 right-0 z-[100] h-1 bg-gray-800/30 backdrop-blur-sm overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 transition-all duration-300 ease-out relative shadow-[0_0_10px_rgba(34,197,94,0.5)]"
-            style={{ width: `${progress}%` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-green-400/80 to-transparent blur-sm" />
-          </div>
-
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute top-1/2 -translate-y-1/2 w-1 h-1 bg-green-300 rounded-full animate-particle opacity-60 blur-[0.5px]"
-              style={{
-                left: `${progress}%`,
-                animationDelay: `${i * 0.2}s`,
-                animationDuration: `${1 + i * 0.3}s`
-              }}
-            />
-          ))}
+        <div className="fixed top-0 left-0 right-0 z-[10000] h-1 bg-gray-800/30 overflow-hidden">
+          <div className="h-full bg-green-500 transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
       )}
 
       <style jsx global>{`
-        @keyframes spin-smooth {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(1.1); }
-        }
-        
-        @keyframes pulse-subtle {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
-        }
-        
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-        
-        @keyframes particle {
-          0% {
-            transform: translate(0, -50%) scale(1);
-            opacity: 0.8;
-          }
-          50% {
-            transform: translate(-30px, -70%) scale(1.5);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-60px, -100%) scale(0.5);
-            opacity: 0;
-          }
-        }
-        
-        .animate-spin-smooth {
-          animation: spin-smooth 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 2s ease-in-out infinite;
-        }
-        
-        .animate-pulse-subtle {
-          animation: pulse-subtle 2s ease-in-out infinite;
-        }
-        
-        .animate-shimmer {
-          animation: shimmer 1.5s ease-in-out infinite;
-        }
-        
-        .animate-particle {
-          animation: particle 1.5s ease-out infinite;
-        }
-        
-        /* Enhanced page transition - smooth wipe with depth (theme-aware) */
-        .page-content {
-          position: relative;
-          isolation: isolate;
-          will-change: opacity, visibility;
-        }
-        
-        /* Hide content initially on first visit */
-        .page-content.first-visit-loading {
-          opacity: 0 !important;
-          visibility: hidden !important;
-        }
-        
-        /* Page leaving animation */
-        .page-content.page-leaving {
-          animation: fadeOutPage 0.6s cubic-bezier(0.4, 0, 1, 1) forwards;
-        }
-        
-        /* Page entering animation */
-        .page-content.page-entering {
-          animation: fadeInPage 0.6s cubic-bezier(0, 0, 0.2, 1) forwards;
-        }
-        
-        .page-content::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: hsl(var(--background));
-          backdrop-filter: blur(20px);
-          z-index: 10;
+        .transition-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
           pointer-events: none;
-          transition: none;
-          will-change: transform, backdrop-filter;
+          background: #000; /* Use pure black for perfect coverage */
+          backdrop-filter: blur(0px);
+          clip-path: inset(0 0 0 100%);
+          opacity: 0;
+          visibility: hidden;
+          will-change: clip-path, backdrop-filter, opacity;
         }
-        
-        .page-content.page-loading::before {
-          background: hsl(var(--background));
-          backdrop-filter: blur(20px);
-          transform: translateX(0%) scale(1);
+
+        /* Ensure the overlay is always opaque when covering or loading */
+        .transition-overlay.covering, 
+        .transition-overlay.loading,
+        .transition-overlay.revealing {
+          background: #5de638ff;
+          opacity: 1;
+          visibility: visible;
         }
-        
-        .page-content.page-loaded::before {
-          animation: revealWipe 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+
+        .transition-overlay.covering {
+          animation: coverWipe 1.2s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+          pointer-events: all;
         }
-        
-        @keyframes fadeOutPage {
-          0% {
-            opacity: 1;
-            filter: blur(0px);
-          }
-          100% {
-            opacity: 0.4;
-            filter: blur(5px);
-          }
+
+        .transition-overlay.loading {
+          clip-path: inset(0 0 0 0);
+          backdrop-filter: blur(25px);
+          pointer-events: all;
         }
-        
-        @keyframes fadeInPage {
-          0% {
-            opacity: 0.4;
-            filter: blur(5px);
-          }
-          100% {
-            opacity: 1;
-            filter: blur(0px);
-          }
+
+        .transition-overlay.revealing {
+          animation: revealWipe 1.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
         }
-        
+
+        .transition-overlay.idle {
+          opacity: 0;
+          visibility: hidden;
+          clip-path: inset(0 0 0 100%);
+          pointer-events: none;
+        }
+
+        @keyframes coverWipe {
+          0% { clip-path: inset(0 0 0 100%); backdrop-filter: blur(0px); opacity: 0.5; }
+          100% { clip-path: inset(0 0 0 0); backdrop-filter: blur(25px); opacity: 1; }
+        }
+
         @keyframes revealWipe {
-          0% {
-            transform: translateX(0%) scaleX(1);
-            background: hsl(var(--background));
-            backdrop-filter: blur(20px);
-            opacity: 1;
-          }
-          15% {
-            backdrop-filter: blur(18px);
-          }
-          40% {
-            backdrop-filter: blur(12px);
-          }
-          70% {
-            backdrop-filter: blur(5px);
-          }
-          85% {
-            backdrop-filter: blur(2px);
-            opacity: 0.8;
-          }
-          100% {
-            transform: translateX(102%) scaleX(1.05);
-            backdrop-filter: blur(0px);
-            opacity: 0;
-          }
+          0% { clip-path: inset(0 0 0 0); backdrop-filter: blur(25px); opacity: 1; }
+          100% { clip-path: inset(0 0 0 100%); backdrop-filter: blur(10px); opacity: 0; }
+        }
+
+        .page-content {
+          opacity: 0;
+          transform: translateY(30px) scale(0.97);
+          will-change: opacity, transform;
+          transition: 
+            opacity 1.8s cubic-bezier(0.85, 0, 0.15, 1), 
+            transform 1.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        
+        /* Persistent hide during transition across page loads */
+        body.is-transitioning .page-content:not(.page-loaded) {
+          opacity: 0 !important;
+          visibility: hidden;
+          transform: translateY(30px) scale(0.97) !important;
+        }
+
+        .page-content.page-loaded {
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: translateY(0) scale(1) !important;
+        }
+
+        /* Initial load visibility */
+        .page-content:not(.page-loading):not(.page-loaded) {
+          opacity: 1;
+          transform: none;
         }
       `}</style>
     </>

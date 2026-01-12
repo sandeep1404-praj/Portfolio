@@ -48,8 +48,8 @@ export default function RootLayout({ children }) {
             enableSystem
           >
             <ScrollToTop />
-            <LoadingBar />
             <Navbar />
+            <LoadingBar />
             <main className="page-content" data-barba="container">
               {children}
             </main>
