@@ -20,11 +20,13 @@ export default function MarqueeStrip() {
           {[...marqueeItems, ...marqueeItems].map((item, idx) => (
             <span
               key={`${item}-${idx}`}
-              className="mx-6 inline-flex items-center gap-3 text-3xl sm:text-4xl font-bold tracking-tight uppercase text-[#E0E0E0] dark:text-[#3D3D3D]"
-              style={{ fontFamily: 'var(--font-playfair-display)' }}
+              className=" tracking-wide mx-6 inline-flex items-center gap-3 text-3xl sm:text-4xl font-bold tracking-tight uppercase text-[#E0E0E0] dark:text-[#3D3D3D]"
+              style={{ fontFamily: 'var(--font-faustina)' }}
             >
               {item}
-              <span className="text-4xl leading-none text-[#E0E0E0] dark:text-[#3D3D3D]">✦</span>
+
+              <span className="text-4xl mx-[25px] leading-none text-[#E0E0E0] dark:text-[#3D3D3D]"></span>
+              <span className="text-4xl mx-[5px] leading-none text-[#E0E0E0] dark:text-[#3D3D3D]">✦</span>
             </span>
           ))}
         </div>

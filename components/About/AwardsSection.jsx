@@ -1,5 +1,6 @@
 'use client';
 
+import ScrollFloat from "../ui/ScrollFloat";
 import ShinyText from "../ui/ShinyText";
 
 export default function AwardsSection() {
@@ -31,9 +32,15 @@ export default function AwardsSection() {
               />
                 {/* <span className="text-xs sm:text-sm font-semibold tracking-widest text-muted-foreground">AWARDS</span> */}
               </div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-foreground leading-tight">
+              <ScrollFloat
+                duration={1.6}
+              >
+                Certifiacates
+
+              </ScrollFloat>
+              {/* <h2 className="text-4xl sm:text-5xl font-bold text-foreground leading-tight">
                 Awards &<br />Recognition
-              </h2>
+              </h2> */}
             </div>
           </div>
 

@@ -13,10 +13,10 @@ export default function HeroSection() {
           alt="Waving hand"
           width={30}
           height={30}
-          className="w-7 h-6 sm:w-9 sm:h-9 animate-wave hand-green"
+          className="w-6 h-3 sm:w-6 sm:h-6 animate-wave hand-green"
           priority
         />
-        <p className="text-base sm:text-lg text-black dark:text-zinc-50">Hey! It's me Sandeep,</p>
+        <p className="font-Oswald tracking-wider text-base sm:text-lg text-black dark:text-zinc-50">Hey! It's me Sandeep,</p>
       </div>
 
       {/* Main Heading */}

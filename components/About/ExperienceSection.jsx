@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import ShinyText from "../ui/ShinyText";
 import { experiences } from "@/lib/experiences";
+import ScrollFloat from "../ui/ScrollFloat";
 
 export default function ExperienceSection() {
   const [showAll, setShowAll] = useState(false);
@@ -30,9 +31,14 @@ export default function ExperienceSection() {
                 pauseOnHover={false}
             />
             </div>
-            <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground">
+            <ScrollFloat
+              duration={1.6}
+            >
               Experience
-            </h2>
+
+            </ScrollFloat>
+            {/* <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground">
+            </h2> */}
             <p className="text-lg text-muted-foreground leading-relaxed">
               I have worked with some of the most innovative industry leaders to help build their top-notch products.
             </p>

@@ -1,6 +1,6 @@
 
 
-import { Geist, Geist_Mono, Carter_One, Playfair_Display } from "next/font/google";
+import { Geist, Geist_Mono, Carter_One, Playfair_Display, Oswald, Faustina } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Navbar from "@/components/AppLayout/Navbar";
@@ -30,6 +30,16 @@ const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
 });
 
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: "400",
+});
+const faustina = Faustina({
+  variable: "--font-faustina",
+  subsets: ["latin"],
+});
+
 export const metadata = {
   title: "Portfolio",
   description: "My professional portfolio",
@@ -39,7 +49,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} ${oswald.variable} ${faustina.variable} antialiased`}
       >
         <SmoothScroll>
           <ThemeProvider
@@ -53,11 +63,7 @@ export default function RootLayout({ children }) {
             <main className="page-content" data-barba="container">
               {children}
             </main>
-            <div className="flex min-h-screen items-center justify-center bg-white font-sans dark:bg-black">
-                <main className="flex min-h-screen w-full max-w-7xl flex-col justify-center py-24 px-6 sm:px-16 lg:px-15 bg-white dark:bg-black">            
-                  <Footer />
-                </main>
-              </div>
+            <Footer />
             <div className="bottom-blur" aria-hidden="true" />
           </ThemeProvider>
         </SmoothScroll>
