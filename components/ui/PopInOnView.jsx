@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function PopInOnView({
   children,
   className = '',
-  start = 'top 80%',
+  start = 'top 70%',
   duration = 0.9,
   ease = 'power2.out',
   yFrom = 12,

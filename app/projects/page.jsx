@@ -1,128 +1,95 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ShinyText from "@/components/ui/ShinyText";
+import ScrollFloat from "@/components/ui/ScrollFloat";
+import { projects } from "@/lib/projects";
+import { Sparkles } from "lucide-react";
+
+const categories = ["All", ...new Set(projects.map(p => p.category))];
 
 export default function Project() {
+  const [filter, setFilter] = useState("All");
+
+  const filteredProjects = projects.filter(project => 
+    filter === "All" ? true : project.category === filter
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-5xl flex-col items-center sm:items-start justify-center py-24 px-6 sm:px-12 bg-white dark:bg-black">
-        <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-8 w-full">
-          <div className="flex-1 space-y-6 text-center sm:text-left">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-zinc-50">
-              Hi, I'm Your projects
-            </h1>
-            <p className="text-lg text-zinc-700 dark:text-zinc-300 max-w-2xl">
-              Frontend developer crafting clean, accessible interfaces with Next.js, React, and Tailwind CSS. I love building fast, delightful user experiences.
-            </p>
-            <div className="flex items-center justify-center sm:justify-start gap-4">
-              <Link href="/projects" className="inline-flex">
-                <span className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-6 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">View Projects</span>
-              </Link>
-              <Link href="/about" className="inline-flex">
-                <span className="inline-flex h-11 items-center justify-center rounded-full border border-black/10 dark:border-white/20 px-6 text-black dark:text-zinc-50 hover:bg-black/5 dark:hover:bg-white/10">About Me</span>
-              </Link>
+    <div className="flex min-h-screen items-center justify-center bg-white font-sans dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-7xl flex-col py-24 px-6 sm:px-16 bg-white dark:bg-black">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2 mb-6 group">
+              <Sparkles className="w-5 h-5 text-[#69d867] group-hover:rotate-12 transition-transform duration-300" />
+              <ShinyText
+                text="MY WORK"
+                speed={2}
+                delay={0}
+                color="#69d867ff"
+                shineColor="#ffffff"
+                spread={120}
+                direction="left"
+                yoyo={false}
+                pauseOnHover={false}
+              />
+            </div>
+            <div className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight">
+              <ScrollFloat animationDuration={1.6}>
+                Creating unique Project
+              </ScrollFloat>
             </div>
           </div>
-          <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden ring-1 ring-black/10 dark:ring-white/10">
-            <Image src="/next.svg" alt="Avatar" width={160} height={160} className="dark:invert" />
+
+          {/* Filter Buttons */}
+          <div className="flex bg-zinc-100 dark:bg-zinc-900/50 p-1.5 rounded-full border border-zinc-200 dark:border-zinc-800">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                  filter === cat
+                    ? "bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-black/10 dark:shadow-white/5"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
-        <section className="mt-16 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Featured Projects</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[1,2,3,4].map((id) => (
-              <div key={id} className="rounded-xl border border-black/10 dark:border-white/10 p-5">
-                <h3 className="font-semibold text-black dark:text-zinc-50">Project {id}</h3>
-                <p className="text-sm text-zinc-700 dark:text-zinc-300">Brief description of what this project does and the tech used.</p>
-                <div className="mt-4 flex gap-3">
-                  <a className="text-sm font-medium text-blue-600 dark:text-blue-400" href="#">Demo</a>
-                  <a className="text-sm font-medium text-zinc-700 dark:text-zinc-300" href="#">Code</a>
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16 group/projects">
+          {filteredProjects.map((project, index) => (
+            <Link 
+              href={project.link} 
+              key={project.id} 
+              className={`group/card cursor-pointer transition-all duration-500 ease-out group-hover/projects:opacity-40 group-hover/projects:blur-[2px] hover:!opacity-100 hover:!blur-none ${index % 2 === 1 ? 'md:mt-24' : ''}`}
+            >
+              <div className={`relative rounded-3xl ${project.bgColor} p-12 h-[380px] sm:h-[480px] flex items-center justify-center overflow-hidden transition-all duration-500 group-hover/card:scale-[1.02] group-hover/card:shadow-2xl group-hover/card:shadow-[#7fef6d]/20`}>
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-contain p-8 group-hover/card:scale-105 transition-transform duration-700"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
-          <div className="mt-6">
-            <Link href="/projects" className="text-sm font-medium text-blue-600 dark:text-blue-400">See all projects →</Link>
-          </div>
-        </section>
-
-        {/* Long sections to increase page length */}
-        <section className="mt-20 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Experience</h2>
-          <div className="space-y-6">
-            {[
-              { role: "Frontend Developer", company: "TechCo", period: "2023 — Present", desc: "Building accessible, performant interfaces with Next.js and Tailwind CSS." },
-              { role: "UI Engineer", company: "DesignHub", period: "2021 — 2023", desc: "Shipped component libraries and design systems across products." },
-              { role: "Web Developer", company: "Studio", period: "2019 — 2021", desc: "Delivered landing pages and marketing sites with a11y best practices." },
-              { role: "Intern", company: "Startup", period: "2018 — 2019", desc: "Learned the ropes, contributed to features, and improved docs." },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-black/10 dark:border-white/10 p-4">
+              <div className="mt-8 flex items-start justify-between px-2">
                 <div>
-                  <p className="font-medium text-black dark:text-zinc-50">{item.role} · {item.company}</p>
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300">{item.desc}</p>
+                  <h3 className="text-1xl md:text-2xl font-bold text-black dark:text-zinc-50">{project.title}</h3>
+                  <p className="text-base font-medium text-zinc-500 dark:text-zinc-400 mt-2 uppercase tracking-widest">{project.category}</p>
                 </div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.period}</p>
+                <span className="text-xl font-medium text-zinc-400 dark:text-zinc-500 tabular-nums">{project.year}</span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-20 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Skills</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {[
-              "React","Next.js","TypeScript","JavaScript","Tailwind CSS","CSS","HTML","Vite","Redux","Zustand","Accessibility","Testing","Playwright","Vitest","Jest","Node.js","Git","CI/CD"
-            ].map((s) => (
-              <span key={s} className="inline-flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 px-3 py-2 text-sm text-zinc-700 dark:text-zinc-300">
-                {s}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-20 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Testimonials</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1,2,3,4].map((i) => (
-              <blockquote key={i} className="rounded-xl border border-black/10 dark:border-white/10 p-5 text-zinc-700 dark:text-zinc-300">
-                “Working with them was a pleasure — thoughtful, detail‑oriented, and fast. The new interface significantly improved conversions.”
-                <footer className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">— Client {i}</footer>
-              </blockquote>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-20 w-full">
-          <h2 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-6">Latest Posts</h2>
-          <div className="space-y-4">
-            {[...Array(6)].map((_, i) => (
-              <article key={i} className="rounded-xl border border-black/10 dark:border-white/10 p-4">
-                <h3 className="font-semibold text-black dark:text-zinc-50">Post Title {i + 1}</h3>
-                <p className="text-sm text-zinc-700 dark:text-zinc-300">Short summary of the blog post explaining a concept or a technique in frontend development.</p>
-                <a href="#" className="mt-2 inline-block text-sm font-medium text-blue-600 dark:text-blue-400">Read more →</a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-20 w-full">
-          <div className="rounded-2xl border border-black/10 dark:border-white/10 p-6 sm:p-8 text-center sm:text-left">
-            <h2 className="text-2xl font-semibold text-black dark:text-zinc-50">Let’s build something great</h2>
-            <p className="mt-2 text-zinc-700 dark:text-zinc-300 max-w-2xl">Have a project or role in mind? I’m open to collaborations and opportunities. Reach out and we’ll make it happen.</p>
-            <div className="mt-4 flex items-center justify-center sm:justify-start gap-4">
-              <Link href="/contact" className="inline-flex">
-                <span className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-6 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">Contact Me</span>
-              </Link>
-              <Link href="/projects" className="inline-flex">
-                <span className="inline-flex h-11 items-center justify-center rounded-full border border-black/10 dark:border-white/20 px-6 text-black dark:text-zinc-50 hover:bg-black/5 dark:hover:bg-white/10">Browse Projects</span>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <footer className="mt-20 w-full pb-24 text-center text-sm text-zinc-600 dark:text-zinc-400">
-          © {new Date().getFullYear()} Your Name. All rights reserved.
-        </footer>
+            </Link>
+          ))}
+        </div>
       </main>
     </div>
   );
