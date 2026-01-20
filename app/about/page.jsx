@@ -10,7 +10,7 @@ export default function About() {
   return (<>
     <AboutHero />
     <TechStackMarquee />
-    <ExperienceSection />
+    {/* <ExperienceSection /> */}
     <AwardsSection />
     <CommunitySection />
   </>);

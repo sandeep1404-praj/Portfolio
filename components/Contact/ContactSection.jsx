@@ -97,20 +97,22 @@ export default function ContactSection() {
             </p>
             
             <div className="flex items-center gap-6 group/socials">
-              <a href="#" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
+              <a href="https://www.linkedin.com/in/sandeep-prajapati-a01997224/" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
+              <a href="https://github.com/sandeep1404-praj" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
                 <Github className="w-5 h-5" />
               </a>
-              <a href="#" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
+              <a href="https://www.instagram.com/official_sandeep.pr/" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
+              <a href="mailto@contactwebsandeep@gmail.com" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
                 <Mail className="w-5 h-5" />
               </a>
-              <a href="#" className="text-zinc-500 hover:!text-white group-hover/socials:text-zinc-700 transition-all duration-300">
-                <Twitter className="w-5 h-5" />
+              <a href="https://leetcode.com/u/Sandeep-praj-14/" target="_blank" className="text-zinc-500 hover:!text-white group-hover/footer-socials:text-zinc-700 transition-all duration-300">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16.102 17.93l-2.697 2.607c-.466.462-1.211.462-1.677 0L7.143 16.03a1.189 1.189 0 0 1 0-1.676l2.697-2.607c.466-.462 1.211-.462 1.677 0l4.585 4.508a1.189 1.189 0 0 1 0 1.675zm5.993-5.651l-2.983 2.848c-.466.462-1.211.462-1.677 0L12.85 10.619a1.189 1.189 0 0 1 0-1.676l2.983-2.848c.466-.462 1.211-.462 1.677 0l4.585 4.508a1.189 1.189 0 0 1 0 1.676zm-5.025-9.118l-2.15-2.09c-.466-.462-1.211-.462-1.677 0L3.067 10.864c-.466.462-.466 1.211 0 1.676l2.15 2.09a1.189 1.189 0 0 0 1.677 0L17.07 4.838a1.189 1.189 0 0 0 0-1.676zM3.575 14.648l-2.15 2.09c-.466.462-.466 1.211 0 1.676l2.15 2.09c.466.462 1.211.462 1.677 0l2.15-2.09c.466-.462.466-1.211 0-1.676l-2.15-2.09a1.189 1.189 0 0 0-1.677 0z"/>
+                    </svg>
               </a>
             </div>
           </div>
