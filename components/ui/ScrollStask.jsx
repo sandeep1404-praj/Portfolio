@@ -1,7 +1,6 @@
 'use client';
 
 import { useLayoutEffect, useRef, useCallback } from 'react';
-import Lenis from 'lenis';
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => (
   <div
@@ -53,6 +52,7 @@ const ScrollStack = ({
 
   const getScrollData = useCallback(() => {
     if (useWindowScroll) {
+      if (typeof window === 'undefined') return { scrollTop: 0, containerHeight: 0, scrollContainer: null };
       return {
         scrollTop: window.scrollY,
         containerHeight: window.innerHeight,
@@ -61,8 +61,8 @@ const ScrollStack = ({
     } else {
       const scroller = scrollerRef.current;
       return {
-        scrollTop: scroller.scrollTop,
-        containerHeight: scroller.clientHeight,
+        scrollTop: scroller?.scrollTop || 0,
+        containerHeight: scroller?.clientHeight || 0,
         scrollContainer: scroller
       };
     }
@@ -70,7 +70,9 @@ const ScrollStack = ({
 
   const getElementOffset = useCallback(
     element => {
+      if (!element) return 0;
       if (useWindowScroll) {
+        if (typeof window === 'undefined') return 0;
         const rect = element.getBoundingClientRect();
         return rect.top + window.scrollY;
       } else {
@@ -90,7 +92,7 @@ const ScrollStack = ({
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
     const endElement = useWindowScroll
-      ? document.querySelector('.scroll-stack-end')
+      ? (typeof document !== 'undefined' ? document.querySelector('.scroll-stack-end') : null)
       : scrollerRef.current?.querySelector('.scroll-stack-end');
 
     const endElementTop = endElement ? getElementOffset(endElement) : 0;
@@ -192,58 +194,63 @@ const ScrollStack = ({
     updateCardTransforms();
   }, [updateCardTransforms]);
 
-  const setupLenis = useCallback(() => {
-    if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075
-      });
+  const setupLenis = useCallback(async () => {
+    try {
+      const { default: Lenis } = await import('lenis');
+      if (useWindowScroll) {
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 2,
+          infinite: false,
+          wheelMultiplier: 1,
+          lerp: 0.1,
+          syncTouch: true,
+          syncTouchLerp: 0.075
+        });
 
-      lenis.on('scroll', handleScroll);
+        lenis.on('scroll', handleScroll);
 
-      const raf = time => {
-        lenis.raf(time);
+        const raf = time => {
+          lenis.raf(time);
+          animationFrameRef.current = requestAnimationFrame(raf);
+        };
         animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
 
-      lenisRef.current = lenis;
-      return lenis;
-    } else {
-      const scroller = scrollerRef.current;
-      if (!scroller) return;
+        lenisRef.current = lenis;
+        return lenis;
+      } else {
+        const scroller = scrollerRef.current;
+        if (!scroller) return;
 
-      const lenis = new Lenis({
-        wrapper: scroller,
-        content: scroller.querySelector('.scroll-stack-inner'),
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075
-      });
+        const lenis = new Lenis({
+          wrapper: scroller,
+          content: scroller.querySelector('.scroll-stack-inner'),
+          duration: 1.2,
+          easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 2,
+          infinite: false,
+          wheelMultiplier: 1,
+          lerp: 0.1,
+          syncTouch: true,
+          syncTouchLerp: 0.075
+        });
 
-      lenis.on('scroll', handleScroll);
+        lenis.on('scroll', handleScroll);
 
-      const raf = time => {
-        lenis.raf(time);
+        const raf = time => {
+          lenis.raf(time);
+          animationFrameRef.current = requestAnimationFrame(raf);
+        };
         animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
 
-      lenisRef.current = lenis;
-      return lenis;
+        lenisRef.current = lenis;
+        return lenis;
+      }
+    } catch (error) {
+      console.error('Failed to load Lenis:', error);
     }
   }, [handleScroll, useWindowScroll]);
 

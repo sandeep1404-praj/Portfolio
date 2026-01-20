@@ -73,6 +73,7 @@ export default function SmoothScroll({ children }) {
       };
 
       // Initialize GSAP quickTo animations
+      if (typeof document === 'undefined') return;
       const navLeft = document.querySelector('.nav-left');
       const navRight = document.querySelector('.nav-right');
       const navContainer = document.querySelector('.navbar-container');

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import barba from '@barba/core';
 
 export default function LoadingBar() {
   const [progress, setProgress] = useState(0);
@@ -20,6 +19,7 @@ export default function LoadingBar() {
 
   // Helper to hide content immediately
   const hideContent = () => {
+    if (typeof document === 'undefined') return;
     const pageContent = document.querySelector('.page-content');
     if (pageContent) {
       pageContent.classList.remove('page-loaded');
@@ -29,6 +29,7 @@ export default function LoadingBar() {
 
   // Sync transition stage with body class to force hide content
   useEffect(() => {
+    if (typeof document === 'undefined') return;
     if (transitionStage !== 'idle') {
       document.body.classList.add('is-transitioning');
     } else {
@@ -38,6 +39,7 @@ export default function LoadingBar() {
 
   // Handle manual navigation intercept to trigger "Cover" animation
   useEffect(() => {
+    if (typeof document === 'undefined') return;
     const handleAnchorClick = (e) => {
       let target = e.target;
       while (target && target.tagName !== 'A') target = target.parentElement;
@@ -68,6 +70,7 @@ export default function LoadingBar() {
 
   // Check first visit
   useEffect(() => {
+    if (typeof document === 'undefined' || typeof sessionStorage === 'undefined') return;
     const hasVisited = sessionStorage.getItem('hasVisited');
     if (!hasVisited) {
       setIsFirstVisit(true);
@@ -83,24 +86,27 @@ export default function LoadingBar() {
         pageContent.classList.remove('page-loading');
       }
     }
-  }, []);
+  }, [transitionStage]);
 
   // Initialize Barba
   useEffect(() => {
-    if (barbaInitialized) return;
+    if (typeof document === 'undefined' || barbaInitialized) return;
     try {
-      barba.init({
-        transitions: [{
-          name: 'page-transition',
-          leave: () => {
-            setTransitionStage('covering');
-            setIsPageLoading(true);
-            hideContent();
-            return new Promise(r => setTimeout(r, 1200));
-          }
-        }]
-      });
-      setBarbaInitialized(true);
+      import('@barba/core').then((barbaModule) => {
+        const barba = barbaModule.default;
+        barba.init({
+          transitions: [{
+            name: 'page-transition',
+            leave: () => {
+              setTransitionStage('covering');
+              setIsPageLoading(true);
+              hideContent();
+              return new Promise(r => setTimeout(r, 1200));
+            }
+          }]
+        });
+        setBarbaInitialized(true);
+      }).catch(() => setBarbaInitialized(true));
     } catch (e) { setBarbaInitialized(true); }
   }, [barbaInitialized]);
 
@@ -138,11 +144,13 @@ export default function LoadingBar() {
         setTransitionStage('revealing');
         
         // Reveal content exactly when wipe starts
-        const pageContent = document.querySelector('.page-content');
-        if (pageContent) {
-          pageContent.classList.remove('page-loading', 'first-visit-loading');
-          pageContent.classList.add('page-loaded');
-          if (isFirstVisit) document.body.style.overflow = '';
+        if (typeof document !== 'undefined') {
+          const pageContent = document.querySelector('.page-content');
+          if (pageContent) {
+            pageContent.classList.remove('page-loading', 'first-visit-loading');
+            pageContent.classList.add('page-loaded');
+            if (isFirstVisit) document.body.style.overflow = '';
+          }
         }
 
         setTimeout(() => {
@@ -154,10 +162,12 @@ export default function LoadingBar() {
       }, waitTime);
     };
 
-    if (document.readyState === 'complete') {
-      setTimeout(handleLoad, 100);
-    } else {
-      window.addEventListener('load', handleLoad);
+    if (typeof document !== 'undefined') {
+      if (document.readyState === 'complete') {
+        setTimeout(handleLoad, 100);
+      } else {
+        window.addEventListener('load', handleLoad);
+      }
     }
 
     return () => {
