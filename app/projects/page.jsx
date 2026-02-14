@@ -71,12 +71,12 @@ export default function Project() {
               className={`group/card cursor-pointer transition-all duration-500 ease-out group-hover/projects:opacity-40 group-hover/projects:blur-[2px] hover:!opacity-100 hover:!blur-none ${index % 2 === 1 ? 'md:mt-24' : ''}`}
             >
               <div className={`relative rounded-3xl ${project.bgColor} p-8 h-[380px] sm:h-[480px] flex items-center justify-center overflow-hidden transition-all duration-500 group-hover/card:scale-[1.02] group-hover/card:shadow-2xl group-hover/card:shadow-[#7fef6d]/20`}>
-                <div className="relative w-full h-full flex items-center justify-center ">
+                <div className="relative w-full max-w-[520px] aspect-[19/11] rounded-2xl border-[10px] border-zinc-400 overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-contain p-2 group-hover/card:scale-105 transition-transform duration-700 "
+                    className="object-contain rounded-2xl group-hover/card:scale-105 transition-transform duration-700"
                   />
                 </div>
               </div>

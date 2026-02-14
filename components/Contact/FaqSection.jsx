@@ -37,7 +37,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="w-full bg-black text-white py-20 px-2 sm:px-8 md:px-20 lg:px-28 xl:px-46 border-t border-zinc-900">
+    <section className="w-full bg-background text-foreground py-20 px-2 sm:px-8 md:px-20 lg:px-28 xl:px-46 border-t border-border/60">
       <div className="max-w-16xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
         
         {/* Left Side: Header */}
@@ -65,20 +65,20 @@ export default function FaqSection() {
           {faqs.map((faq) => (
             <div 
               key={faq.id}
-              className="bg-[#0D0D0F] rounded-[24px] border border-zinc-800/50 overflow-hidden transition-all duration-300 hover:border-zinc-700"
+              className="bg-card rounded-[24px] border border-border/60 overflow-hidden transition-all duration-300 hover:border-border"
             >
               <button
                 onClick={() => toggleFaq(faq.id)}
                 className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none group"
               >
                 <div className="flex items-center gap-4 sm:gap-6">
-                  <span className="text-[#5D5D61] font-medium text-lg sm:text-xl font-clash">{faq.id}.</span>
-                  <span className="text-white text-lg sm:text-xl font-medium font-clash  transition-colors">
+                  <span className="text-muted-foreground font-medium text-lg sm:text-xl font-clash">{faq.id}.</span>
+                  <span className="text-foreground text-lg sm:text-xl font-medium font-clash transition-colors">
                     {faq.question}
                   </span>
                 </div>
                 <ChevronDown 
-                  className={`w-5 h-5 text-zinc-500 transition-transform duration-300 ${openId === faq.id ? "rotate-180 text-white" : ""}`} 
+                  className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${openId === faq.id ? "rotate-180 text-foreground" : ""}`} 
                 />
               </button>
               
@@ -91,7 +91,7 @@ export default function FaqSection() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
                     <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-0 ml-[44px] sm:ml-[68px]">
-                      <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-2xl font-light">
+                      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl font-light">
                         {faq.answer}
                       </p>
                     </div>

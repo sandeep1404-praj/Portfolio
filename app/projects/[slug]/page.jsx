@@ -41,7 +41,7 @@ export default function ProjectDetail() {
 
         {/* Header Image (Conditional) */}
         {project.headerImage && (
-          <div className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden mb-16 border border-zinc-200 dark:border-zinc-800">
+          <div className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden mb-16 border border-zinc-200 dark:border-zinc-800">
             <Image 
               src={project.headerImage} 
               alt={`${project.title} header`} 
