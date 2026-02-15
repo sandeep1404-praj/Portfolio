@@ -22,8 +22,8 @@ export default function HeroSection() {
       {/* Main Heading */}
       <h1 className="font-Bungee text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[4.5rem] font-medium tracking-tight leading-[1.1] max-w-5xl">
         <span className="text-black dark:text-white">Crafting </span>
-        <span className="text-[#7fef6d]">purpose driven<br />experiences</span>
-        <span className="text-black dark:text-white"> that inspire<br />& engage.</span>
+        <span className="text-[#7fef6d]">efficient solutions <br />that solve</span>
+        <span className="text-black dark:text-white"> real problems <br />& deliver impact.</span>
       </h1>
 
       {/* Description */}
@@ -31,7 +31,7 @@ export default function HeroSection() {
         <div className="flex items-center gap-4">
           <div className="h-px w-[65rem] bg-zinc-300 dark:bg-zinc-700"></div>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl text-right leading-relaxed">
-            I work with brands globally to build pixel-perfect, engaging, and accessible digital experiences that drive results and achieve business goals.
+            I build efficient, scalable, and clean software solutions by combining strong problem-solving skills with practical engineering experience.  
           </p>
         </div>
       </div>

@@ -22,7 +22,7 @@ export default function CommunitySection() {
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={525} separator="+" className="count-up-text font-bold" />+ Problem
+                <CountUp to={625} separator="+" className="count-up-text font-bold" />+ Problem
               </Link>
               
               {/* <p className="text-sm text-muted-foreground">Get connected with a mentor that will help you pave your career path.</p> */}
@@ -53,7 +53,7 @@ export default function CommunitySection() {
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={100} separator="+" className="count-up-text font-bold" />+ Problem
+                <CountUp to={3} separator="*" className="count-up-text font-bold" />★ (1600+ Rating)
               </Link>
               {/* <p className="text-sm text-muted-foreground">Get Free resources related to Designing and Development from the community.</p> */}
             </div>

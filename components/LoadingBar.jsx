@@ -20,6 +20,7 @@ export default function LoadingBar() {
   // Helper to hide content immediately
   const hideContent = () => {
     if (typeof document === 'undefined') return;
+    setShowContent(false);
     const pageContent = document.querySelector('.page-content');
     if (pageContent) {
       pageContent.classList.remove('page-loaded');
@@ -86,7 +87,19 @@ export default function LoadingBar() {
         pageContent.classList.remove('page-loading');
       }
     }
-  }, [transitionStage]);
+  }, []); // Run only once on mount
+
+  // Sync content state on transition stage change (for subsequent visits)
+  useEffect(() => {
+    if (typeof document === 'undefined' || isFirstVisit) return;
+    if (transitionStage === 'idle') {
+      const pageContent = document.querySelector('.page-content');
+      if (pageContent) {
+        pageContent.classList.add('page-loaded');
+        pageContent.classList.remove('page-loading');
+      }
+    }
+  }, [transitionStage, isFirstVisit]);
 
   // Initialize Barba
   useEffect(() => {
@@ -137,34 +150,56 @@ export default function LoadingBar() {
       clearInterval(progressInterval);
       setProgress(100);
       
-      // Delay reveal until content is actually ready in DOM
-      const waitTime = (isFirstVisit && showFirstAnimation) ? 5500 : 300;
-      
-      setTimeout(() => {
-        setTransitionStage('revealing');
-        
-        // Reveal content exactly when wipe starts
-        if (typeof document !== 'undefined') {
-          const pageContent = document.querySelector('.page-content');
-          if (pageContent) {
-            pageContent.classList.remove('page-loading', 'first-visit-loading');
-            pageContent.classList.add('page-loaded');
-            if (isFirstVisit) document.body.style.overflow = '';
+      if (isFirstVisit && showFirstAnimation) {
+        // First visit: Smooth reveal without the green wipe "out animation"
+        setTimeout(() => {
+          if (typeof document !== 'undefined') {
+            const pageContent = document.querySelector('.page-content');
+            if (pageContent) {
+              pageContent.classList.remove('page-loading', 'first-visit-loading');
+              pageContent.classList.add('page-loaded');
+              document.body.style.overflow = '';
+            }
           }
-        }
+
+          setShowContent(true); // Fades out the black overlay
+
+          setTimeout(() => {
+            setTransitionStage('idle');
+            setIsPageLoading(false);
+            setShowFirstAnimation(false);
+            setIsFirstVisit(false); // Mark first visit as fully completed
+          }, 1000); // Wait for the 1000ms transition-opacity to finish
+        }, 5500);
+      } else {
+        // Normal navigation/refresh: 
+        // GUARD: If content is already shown and we aren't transitioning, don't trigger reveal again
+        if (showContent && transitionStage === 'idle') return;
 
         setTimeout(() => {
-          setTransitionStage('idle');
-          setIsPageLoading(false);
-          setShowContent(true);
-          setShowFirstAnimation(false);
-        }, 1500);
-      }, waitTime);
+          setTransitionStage('revealing');
+          
+          if (typeof document !== 'undefined') {
+            const pageContent = document.querySelector('.page-content');
+            if (pageContent) {
+              pageContent.classList.remove('page-loading');
+              pageContent.classList.add('page-loaded');
+            }
+          }
+
+          setTimeout(() => {
+            setTransitionStage('idle');
+            setIsPageLoading(false);
+            setShowContent(true);
+          }, 1500);
+        }, 300);
+      }
     };
 
+    let loadTimeout;
     if (typeof document !== 'undefined') {
       if (document.readyState === 'complete') {
-        setTimeout(handleLoad, 100);
+        loadTimeout = setTimeout(handleLoad, 100);
       } else {
         window.addEventListener('load', handleLoad);
       }
@@ -173,6 +208,7 @@ export default function LoadingBar() {
     return () => {
       hasCompleted = true;
       clearInterval(progressInterval);
+      if (loadTimeout) clearTimeout(loadTimeout);
       window.removeEventListener('load', handleLoad);
     };
   }, [pathname, isFirstVisit, showFirstAnimation]);

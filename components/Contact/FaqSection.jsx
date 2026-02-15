@@ -9,23 +9,23 @@ import FooterIcons from "../AppLayout/FooterIcons";
 const faqs = [
   {
     id: "01",
-    question: "What is your current role?",
-    answer: "I am currently working as a Frontend Developer, specializing in building responsive and interactive web applications using React, Next.js, and Tailwind CSS."
+    question: "What makes you a strong candidate for engineering roles?",
+    answer: "I combine solid fundamentals in algorithms and data structures with practical project experience, allowing me to build efficient and scalable solutions."
   },
   {
     id: "02",
-    question: "How much does it cost for a high performing website?",
-    answer: "The cost depends on the complexity, features, and timeline of the project. I offer competitive pricing and can provide a detailed quote after discussing your specific requirements."
+    question: "How do you demonstrate your technical skills?",
+    answer: "Through active problem-solving on LeetCode, CodeChef, and Codeforces, along with real-world academic and personal projects."
   },
   {
     id: "03",
-    question: "How long will the work take from start to finish?",
-    answer: "Project timelines vary significantly based on scope. A simple landing page might take 1-2 weeks, while a complex web application could take 4-8 weeks or more."
+    question: "Why should recruiters consider your profile?",
+    answer: "I have proven analytical ability, consistent coding practice, and hands-on implementation experience, making me prepared for technical interviews and engineering tasks."
   },
   {
     id: "04",
-    question: "Are you available to join as full time?",
-    answer: "I am currently open to both freelance projects and full-time opportunities. Feel free to reach out to discuss how I can contribute to your team."
+    question: "Why should clients hire you for freelance projects?",
+    answer: "I focus on clean, optimized, and reliable solutions, ensuring projects are delivered efficiently, correctly, and on time."
   }
 ];
 
