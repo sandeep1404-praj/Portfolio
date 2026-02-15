@@ -105,7 +105,7 @@ export default function SpecialitySection() {
         </div>
 
         {/* Image */}
-        <div className="relative rounded-2xl overflow-hidden h-[350px] lg:h-[400px] bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+        <div className="relative rounded-2xl overflow-hidden h-[250px] sm:h-[350px] lg:h-[400px] bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
           {[
             "/Area of Experians/workspace.png",
             "/Area of Experians/DSA.png", 

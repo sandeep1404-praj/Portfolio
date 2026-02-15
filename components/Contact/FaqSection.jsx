@@ -37,8 +37,8 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="w-full bg-background text-foreground py-20 px-2 sm:px-8 md:px-20 lg:px-28 xl:px-46 border-t border-border/60">
-      <div className="max-w-16xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
+    <section className="w-full bg-background text-foreground py-16 md:py-24 px-4 sm:px-8 lg:px-12 border-t border-border/60">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
         
         {/* Left Side: Header */}
         <div className="lg:w-1/3">

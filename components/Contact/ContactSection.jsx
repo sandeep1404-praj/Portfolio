@@ -41,8 +41,8 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="w-full bg-background text-foreground py-20">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
+    <section className="w-full bg-background text-foreground py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row gap-16 lg:gap-24">
         
         {/* Left Side: Header and Form */}
         <div className="flex-1">

@@ -9,7 +9,7 @@ import SpecialitySection from "@/components/Home/SpecialitySection";
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-7xl flex-col justify-center py-24 px-6 sm:px-16 lg:px-15 bg-white dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-7xl flex-col justify-center py-16 md:py-24 px-4 sm:px-8 lg:px-12 bg-white dark:bg-black">
         <HeroSection />
         <MarqueeStrip />
         <AboutSection />

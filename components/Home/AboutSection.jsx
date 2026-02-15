@@ -5,7 +5,7 @@ import ShinyText from "@/components/ui/ShinyText";
 
 export default function AboutSection() {
   return (
-    <div className="mt-25 w-full flex flex-col items-center justify-center text-center">
+    <div className="mt-20 sm:mt-32 w-full flex flex-col items-center justify-center text-center">
       <ShinyText
         text="✨ About Me"
         speed={2}

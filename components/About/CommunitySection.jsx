@@ -11,8 +11,8 @@ export default function CommunitySection() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left - Cards */}
-          <div className="grid grid-cols-2 gap-6">
-            <div className="bg-gray-200 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-lg p-8 flex flex-col items-center justify-center text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-gray-200 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-lg p-6 sm:p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-zinc-800 flex items-center justify-center mb-4">
                 <Image src="/skillsIcons/leetcode.png" alt="LeetCode" width={48} height={48} className="w-full h-full object-contain rounded-full" />
               </div>

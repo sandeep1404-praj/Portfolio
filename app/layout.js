@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} ${oswald.variable} ${faustina.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} ${oswald.variable} ${faustina.variable} antialiased overflow-x-hidden`}
       >
         <SmoothScroll>
           <ThemeProvider

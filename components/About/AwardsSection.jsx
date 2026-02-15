@@ -45,10 +45,10 @@ export default function AwardsSection() {
           </div>
 
           {/* Right - Awards List */}
-          <div className="space-y-6 sm:space-y-8 flex flex-col justify-start">
+          <div className="space-y-6 sm:space-y-8 flex flex-col justify-center">
             {awards.map((award, index) => (
-              <div key={index} className="flex justify-between items-baseline border-b border-border pb-4 sm:pb-6">
-                <h3 className="text-lg sm:text-xl font-medium text-foreground flex-1">
+              <div key={index} className="flex justify-between items-center border-b border-border pb-4 sm:pb-6">
+                <h3 className="text-lg sm:text-xl font-medium text-foreground flex-1 pr-4">
                   {award.title}
                 </h3>
                 <span className="text-sm sm:text-base text-muted-foreground font-medium whitespace-nowrap ml-4">

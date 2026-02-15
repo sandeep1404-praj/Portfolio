@@ -19,11 +19,11 @@ export default function Project() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-white font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-7xl flex-col py-24 px-6 sm:px-16 bg-white dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-7xl flex-col py-20 px-4 sm:px-8 lg:px-12 bg-white dark:bg-black">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-20 gap-8">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-2 mb-6 group">
+            <div className="flex items-center gap-2 mb-4 group">
               <Sparkles className="w-5 h-5 text-[#69d867] group-hover:rotate-12 transition-transform duration-300" />
               <ShinyText
                 text="MY WORK"
@@ -37,7 +37,7 @@ export default function Project() {
                 pauseOnHover={false}
               />
             </div>
-            <div className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight">
+            <div className="text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight">
               <ScrollFloat animationDuration={1.6}>
                 Creating unique Project
               </ScrollFloat>
@@ -45,20 +45,22 @@ export default function Project() {
           </div>
 
           {/* Filter Buttons */}
-          <div className="flex bg-zinc-100 dark:bg-zinc-900/50 p-1.5 rounded-full border border-zinc-200 dark:border-zinc-800">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  filter === cat
-                    ? "bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-black/10 dark:shadow-white/5"
-                    : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex bg-zinc-100 dark:bg-zinc-900/50 p-1 rounded-full border border-zinc-200 dark:border-zinc-800 overflow-x-auto no-scrollbar max-w-full">
+            <div className="flex min-w-max">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                    filter === cat
+                      ? "bg-black text-white dark:bg-white dark:text-black shadow-lg"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
