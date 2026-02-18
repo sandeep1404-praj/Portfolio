@@ -41,13 +41,13 @@ export default function PopInOnView({
           start,
           toggleActions: 'play none none none',
           markers: false,
+          once: true,
         },
       }
     );
 
     return () => {
       anim?.kill();
-      ScrollTrigger.getAll().forEach((t) => t?.kill());
     };
   }, [start, duration, ease, yFrom, scaleFrom]);
 

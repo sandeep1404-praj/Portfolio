@@ -3,11 +3,13 @@
 import { Geist, Geist_Mono, Carter_One, Playfair_Display, Oswald, Faustina } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import Navbar from "@/components/AppLayout/Navbar";
+import Navbar from "@/components/AppLayout/Navigation/Navbar";
 import Footer from "@/components/AppLayout/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import LoadingBar from "@/components/LoadingBar";
 import ScrollToTop from "@/components/ScrollToTop";
+import FullScreenNav from "@/components/AppLayout/Navigation/FullscreenNav";
+import NavContext from "@/context/NavContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +53,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${carterOne.variable} ${playfairDisplay.variable} ${oswald.variable} ${faustina.variable} antialiased overflow-x-hidden`}
       >
+        <NavContext>
         <SmoothScroll>
           <ThemeProvider
             attribute="class"
@@ -59,6 +62,7 @@ export default function RootLayout({ children }) {
           >
             <ScrollToTop />
             <Navbar />
+            <FullScreenNav />
             <LoadingBar />
             <main className="page-content" data-barba="container">
               {children}
@@ -67,6 +71,7 @@ export default function RootLayout({ children }) {
             <div className="bottom-blur" aria-hidden="true" />
           </ThemeProvider>
         </SmoothScroll>
+        </NavContext>
       </body>
     </html>
   );

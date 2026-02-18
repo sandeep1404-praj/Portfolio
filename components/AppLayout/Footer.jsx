@@ -23,7 +23,7 @@ export default function Footer() {
             </div>
             
             {/* Main heading with slow pop-in on enter */}
-            <PopInOnView>
+            <PopInOnView start="top 90%">
               <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-black dark:text-white leading-tight mb-8 sm:mb-12">
                 Let's create your<br />next big idea.
               </h2>

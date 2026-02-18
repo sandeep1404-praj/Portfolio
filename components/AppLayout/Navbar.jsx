@@ -1,5 +1,5 @@
 'use client';
-
+//not doing right now but this is the navbar component which will be used in the layout.js file to be rendered on all pages. It will have the links to the different pages and also the mode toggle button. It will also have a hamburger menu for mobile view which will open a full screen navigation menu with links to the different pages and also the mode toggle button.
 import Link from "next/link";
 import { ModeToggle } from "../ModeToggle";
 import { usePathname } from "next/navigation";
@@ -56,7 +56,7 @@ export default function Navbar() {
   return (
     <>
       <nav 
-        className="navbar-container bg-white/80 dark:bg-black/80 backdrop-blur-md text-slate-900 dark:text-white sticky top-2 z-50 transition-all duration-300 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm"
+        className="navbar-container bg-white/80 dark:bg-black/80 backdrop-blur-md text-slate-900 dark:text-white sticky top-2 z-50 transition-all duration-300 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm rounded-4xl"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
