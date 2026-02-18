@@ -1,5 +1,3 @@
-"use client";
-
 import HeroSection from "@/components/Home/HeroSection";
 import MarqueeStrip from "@/components/Home/MarqueeStrip";
 import AboutSection from "@/components/Home/AboutSection";

@@ -11,11 +11,15 @@ export default function SmoothScroll({ children }) {
     // Dynamic import to avoid SSR issues
     import('lenis').then((Lenis) => {
       const lenis = new Lenis.default({
-        duration: 1.2,
+        lerp: 0.08, // Subtle lerp for premium smoothness
+        duration: 1.5,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true,
-        smoothTouch: false,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
         wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
+        infinite: false,
       });
 
       // Sync ScrollTrigger with Lenis
@@ -24,17 +28,17 @@ export default function SmoothScroll({ children }) {
       // Expose lenis globally for ScrollToTop component
       window.lenis = lenis;
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
 
-      requestAnimationFrame(raf);
+      gsap.ticker.lagSmoothing(0);
 
       // Clean up on unmount
       return () => {
         lenis.destroy();
         window.lenis = null;
+        gsap.ticker.remove(lenis.raf);
       };
     });
   }, []);

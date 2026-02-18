@@ -43,8 +43,42 @@ const faustina = Faustina({
 });
 
 export const metadata = {
-  title: "Portfolio",
-  description: "My professional portfolio",
+  title: {
+    default: "Sandeep Prajapati - Software Engineer",
+    template: "%s | Sandeep Prajapati",
+  },
+  description: "Official portfolio of Sandeep Prajapati, a Software Engineer specializing in crafting efficient solutions, high-performance web applications, and problem-solving.",
+  keywords: [
+    "Sandeep Prajapati", 
+    "Sandeep Portfolio", 
+    "Software Engineer Portfolio", 
+    "Top Developer Portfolio", 
+    "Full Stack Developer", 
+    "Next.js Portfolio", 
+    "React Developer India",
+    "Best Software Engineering Portfolios"
+  ],
+  authors: [{ name: "Sandeep Prajapati" }],
+  creator: "Sandeep Prajapati",
+  icons: {
+    icon: "/My Photo/headerImg.png",
+    apple: "/My Photo/headerImg.png",
+  },
+  openGraph: {
+    title: "Sandeep Prajapati - Software Engineer",
+    description: "Official portfolio of Sandeep Prajapati. Professional software engineering and creative development.",
+    url: "https://yourdomain.com", // Replace with actual domain if known
+    siteName: "Sandeep Prajapati Portfolio",
+    images: [
+      {
+        url: "/My Photo/headerImg.png",
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {

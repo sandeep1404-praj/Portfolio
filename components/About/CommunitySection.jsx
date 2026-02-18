@@ -103,7 +103,7 @@ export default function CommunitySection() {
             
 
             {/* CTA Button */}
-            <Link href="/about">
+            <Link href="/contact">
           <button className="relative overflow-hidden px-8 py-3 rounded-full border border-black dark:border-zinc-700 text-sm font-medium group isolate">
             <span className="relative z-10 block text-black dark:text-white transition-transform duration-300 group-hover:-translate-y-full group-hover:opacity-0">
               Know me better

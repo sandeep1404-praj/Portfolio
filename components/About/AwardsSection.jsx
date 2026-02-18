@@ -7,8 +7,9 @@ export default function AwardsSection() {
   const awards = [
     { title: "GFG 360", date: "FEB 2026" },
     { title: "GfG 160 – 160 Days of Problem Solving", date: "AUG 2025" },
-    { title: "Network Support and Security", date: "DEC 2024" },
-    { title: "Introduction to Cybersecurity", date: "DEC 2024" },
+    { title: "Problem Solving (Intermediate)", date: "FEB 2026" },
+    { title: "Problem Solving (Basic)", date: "FEB 2026" },
+    { title: "And Many More", date: "..." },
   ];
 
   return (

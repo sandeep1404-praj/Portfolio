@@ -35,7 +35,7 @@ export default function WorkSection() {
             <Link 
               href={project.link} 
               key={project.id} 
-              className={`group/card cursor-pointer transition-all duration-500 ease-out group-hover/projects:opacity-40 group-hover/projects:blur-[2px] hover:!opacity-100 hover:!blur-none ${index % 2 === 1 ? 'md:mt-24' : ''}`}
+              className={`group/card cursor-pointer transition-all duration-500 ease-out group-hover/projects:opacity-50 hover:!opacity-100 ${index % 2 === 1 ? 'md:mt-24' : ''}`}
             >
               <div className={`relative rounded-3xl ${project.bgColor} p-6 sm:p-8 h-[300px] sm:h-[480px] flex items-center justify-center overflow-hidden transition-all duration-500 group-hover/card:scale-[1.02] group-hover/card:shadow-2xl group-hover/card:shadow-[#7fef6d]/20`}>
                 <div className="relative w-full max-w-[520px] aspect-[19/11] rounded-xl sm:rounded-2xl border-[6px] sm:border-[10px] border-zinc-400 overflow-hidden">
