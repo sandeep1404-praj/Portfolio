@@ -53,7 +53,12 @@ export default function AboutHero() {
               I collaborate with brands globally to design impactful, mission-focused websites that drive results and achieve business goals.
             </p>
             <div className="flex items-center justify-center sm:justify-start pt-4">
-              <Link href="/resume" passHref>
+              <Link
+                href="https://drive.google.com/file/d/1Fm9NeGMwW0FNdo6ecwbvLoJgU03lpY9i/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                passHref
+              >
                 <Button variant="outline" size="lg" className="rounded-full px-8 h-12">
                   My Resume
                 </Button>
