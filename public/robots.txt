@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sandeep-prajapati-portfolio.netlify.app/sitemap.xml
