@@ -163,7 +163,7 @@ export default function ContactSection() {
               <a href="https://www.instagram.com/official_sandeep.pr/" className="text-muted-foreground hover:!text-foreground group-hover/socials:text-muted transition-all duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="mailto:contactwebsandeep@gmail.com" className="text-muted-foreground hover:!text-foreground group-hover/socials:text-muted transition-all duration-300">
+              <a href="mailto:sandeep.prajapati0535@gmail.com" className="text-muted-foreground hover:!text-foreground group-hover/socials:text-muted transition-all duration-300">
                 <Mail className="w-5 h-5" />
               </a>
               <a href="https://leetcode.com/u/Sandeep-praj-14/" target="_blank" className="text-muted-foreground hover:!text-foreground group-hover/socials:text-muted transition-all duration-300">

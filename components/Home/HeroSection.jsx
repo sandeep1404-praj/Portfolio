@@ -44,7 +44,7 @@ export default function HeroSection() {
             { name: "LINKEDIN", url: "https://www.linkedin.com/in/sandeep-prajapati-a01997224/" },
             { name: "GITHUB", url: "https://github.com/sandeep1404-praj" },
             { name: "INSTAGRAM", url: "https://www.instagram.com/official_sandeep.pr/" },
-            { name: "GMAIL", url: "mailto:contactwebsandeep@gmail.com" }
+            { name: "GMAIL", url: "mailto:sandeep.prajapati0535@gmail.com" }
           ].map((link) => (
             <Link 
               key={link.name}
