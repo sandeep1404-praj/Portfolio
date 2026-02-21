@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Environment Variables
+
+This project requires the following environment variables for the contact form to work:
+
+- `EMAIL_USER`: Your Gmail address (e.g., `yourname@gmail.com`)
+- `EMAIL_PASS`: Your Gmail [App Password](https://myaccount.google.com/apppasswords) (not your regular password)
+
+Make sure to add these to your hosting provider's dashboard (e.g., Vercel, Netlify).

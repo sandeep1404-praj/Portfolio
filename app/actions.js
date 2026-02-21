@@ -10,13 +10,16 @@ export async function sendEmail(formData) {
   }
 
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.error("Missing email configuration in environment variables.");
+    if (!process.env.EMAIL_USER) console.error("Missing EMAIL_USER environment variable.");
+    if (!process.env.EMAIL_PASS) console.error("Missing EMAIL_PASS environment variable.");
     return { success: false, error: "Server configuration error. Please try again later." };
   }
 
   // Configure the transporter
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // Use SSL
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
