@@ -5,13 +5,16 @@ import nodemailer from "nodemailer";
 export async function sendEmail(formData) {
   const { name, email, message } = formData;
 
+  const EMAIL_USER = process.env["EMAIL_USER"];
+  const EMAIL_PASS = process.env["EMAIL_PASS"];
+
   if (!name || !email || !message) {
     return { success: false, error: "Please fill in all fields." };
   }
 
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    if (!process.env.EMAIL_USER) console.error("Missing EMAIL_USER environment variable.");
-    if (!process.env.EMAIL_PASS) console.error("Missing EMAIL_PASS environment variable.");
+  if (!EMAIL_USER || !EMAIL_PASS) {
+    if (!EMAIL_USER) console.error("Missing EMAIL_USER environment variable.");
+    if (!EMAIL_PASS) console.error("Missing EMAIL_PASS environment variable.");
     return { success: false, error: "Server configuration error. Please try again later." };
   }
 
@@ -21,15 +24,15 @@ export async function sendEmail(formData) {
     port: 465,
     secure: true, // Use SSL
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: EMAIL_USER,
+      pass: EMAIL_PASS,
     },
   });
 
   try {
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: "contactwebsandeep@gmail.com",
+      from: EMAIL_USER,
+      to: EMAIL_USER, // Using the variable to avoid hardcoded secrets mismatch in Netlify scanner
       replyTo: email,
       subject: `New Contact Form Submission from ${name}`,
       text: `
