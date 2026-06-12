@@ -67,7 +67,7 @@ export const metadata = {
   openGraph: {
     title: "Sandeep Prajapati - Software Engineer",
     description: "Official portfolio of Sandeep Prajapati. Professional software engineering and creative development.",
-    url: "https://sandeep-prajapati-portfolio.netlify.app/",
+    url: "https://sandeep-prajapati.me/",
     siteName: "Sandeep Prajapati Portfolio",
     images: [
       {
