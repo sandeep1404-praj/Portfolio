@@ -54,7 +54,7 @@ export default function AboutHero() {
             </p>
             <div className="flex items-center justify-center sm:justify-start pt-4">
               <Link
-                href="https://drive.google.com/file/d/1Fm9NeGMwW0FNdo6ecwbvLoJgU03lpY9i/view?usp=sharing"
+                href="https://drive.google.com/file/d/1rup4iIiKYml5pN-P4slNrDNU1kqJFTnu/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 passHref
