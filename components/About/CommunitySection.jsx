@@ -22,7 +22,7 @@ export default function CommunitySection() {
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={625} separator="+" className="count-up-text font-bold" />+ Problem
+                <CountUp to={1000} separator="+" className="count-up-text font-bold" />+ Problem
               </Link>
               
               {/* <p className="text-sm text-muted-foreground">Get connected with a mentor that will help you pave your career path.</p> */}
@@ -30,15 +30,15 @@ export default function CommunitySection() {
             
             <div className="bg-gray-200 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-lg p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-zinc-800 flex items-center justify-center mb-4">
-                <Image src="/skillsIcons/gfg.jpeg" alt="gfg" width={48} height={48} className="w-full h-full object-contain rounded-full " />
+                <Image src="/skillsIcons/codeforces.png" alt="gfg" width={48} height={48} className="w-full h-full object-contain rounded-full " />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">GeeksForGeeks</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">CodeForces</h3>
               <Link 
               href={"https://www.geeksforgeeks.org/profile/codings09pc"} 
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={350} separator="+" className="count-up-text font-bold" />+ Problem
+                <CountUp to={100} separator="+" className="count-up-text font-bold" />+ Problem
               </Link>
               {/* <p className="text-sm text-muted-foreground">Get Internships and Job opportunities and gain experience while you learn.</p> */}
             </div>
@@ -68,7 +68,7 @@ export default function CommunitySection() {
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={220} separator="+" className="count-up-text font-bold" />+  contributions
+                <CountUp to={300} separator="+" className="count-up-text font-bold" />+  contributions
               </Link>
             </div>
           </div>

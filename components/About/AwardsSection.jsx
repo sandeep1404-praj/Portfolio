@@ -36,7 +36,7 @@ export default function AwardsSection() {
               <ScrollFloat
                 duration={1.6}
               >
-                Certifiacates
+                Certificates
 
               </ScrollFloat>
               {/* <h2 className="text-4xl sm:text-5xl font-bold text-foreground leading-tight">

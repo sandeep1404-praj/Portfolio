@@ -1,5 +1,10 @@
 'use client';
-//not doing right now but this is the navbar component which will be used in the layout.js file to be rendered on all pages. It will have the links to the different pages and also the mode toggle button. It will also have a hamburger menu for mobile view which will open a full screen navigation menu with links to the different pages and also the mode toggle button.
+//not doing right now but this is the navbar component which will be used in the layout.js 
+// file to be rendered on all pages.
+//  It will have the links to the different pages and also the mode toggle button.
+//  It will also have a 
+// hamburger menu for mobile view which will open a full screen navigation 
+// menu with links to the different pages and also the mode toggle button.
 import Link from "next/link";
 import { ModeToggle } from "../ModeToggle";
 import { usePathname } from "next/navigation";
