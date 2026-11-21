@@ -22,7 +22,7 @@ export default function CommunitySection() {
               target="_blank"
               rel="noopener noreferrer">
 
-                <CountUp to={1000} separator="+" className="count-up-text font-bold" />+ Problem
+                <CountUp to={1000} className="count-up-text font-bold" />+ Problem
               </Link>
               
               {/* <p className="text-sm text-muted-foreground">Get connected with a mentor that will help you pave your career path.</p> */}
@@ -64,7 +64,7 @@ export default function CommunitySection() {
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Git Hub</h3>
               <Link 
-              href={"https://leetcode.com/u/Sandeep-praj-14/"} 
+              href={"https://github.com/sandeep1404-praj"} 
               target="_blank"
               rel="noopener noreferrer">
 

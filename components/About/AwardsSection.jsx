@@ -6,6 +6,7 @@ import ShinyText from "../ui/ShinyText";
 export default function AwardsSection() {
   const awards = [
     { title: "GFG 360", date: "FEB 2026" },
+    { title: "Flipkart Grid 8.0 National Finalist", date: "AUG 2026" },
     { title: "GfG 160 – 160 Days of Problem Solving", date: "AUG 2025" },
     { title: "Problem Solving (Intermediate)", date: "FEB 2026" },
     { title: "Problem Solving (Basic)", date: "FEB 2026" },
